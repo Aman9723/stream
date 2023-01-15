@@ -1,13 +1,9 @@
-import express from 'express';
-import { Server as socketIO } from 'socket.io';
-import { createServer } from 'http';
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+const express = require('express');
+const socketIO = require('socket.io');
+const { createServer } = require('http');
+const path = require('path');
 
-/* __dirname is not accessible in type module */
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-export class Server {
+class Server {
     #httpServer;
     #app;
     #io;
@@ -25,7 +21,7 @@ export class Server {
     #initialize() {
         this.#app = express();
         this.#httpServer = createServer(this.#app);
-        this.#io = new socketIO(this.#httpServer);
+        this.#io = socketIO(this.#httpServer);
     }
 
     #handleRoutes() {
@@ -91,3 +87,5 @@ export class Server {
         this.#app.use(express.static(path.join(__dirname, '../public')));
     }
 }
+
+module.exports = Server;
