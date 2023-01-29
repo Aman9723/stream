@@ -24,7 +24,23 @@
                 <h3 id="talking-with-info">Talking with info</h3>
                 <br />
                 <video autoplay id="remote-video"></video>
-                <video autoplay muted id="local-video"></video>
+                <video
+                    autoplay
+                    muted
+                    id="local-video"
+                    poster="/img/user.jpg"
+                ></video>
+            </div>
+            <div class="chat-container">
+                <h3>Chat</h3>
+                <div id="chat"></div>
+                <form id="form">
+                    <input
+                        type="text"
+                        id="message"
+                        placeholder="Type here ..."
+                    />
+                </form>
             </div>
         </div>
         <script src="scripts/index.js"></script>

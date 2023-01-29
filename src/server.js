@@ -32,16 +32,17 @@ class Server {
 
     #handleSocketConnection() {
         this.#io.on('connection', (socket) => {
-            const existingSocket = this.#activeSockets.find(
-                (socketId) => socketId === socket.id
-            );
+            const existingSocket = this.#activeSockets.includes(socket.id);
+
             if (!existingSocket) {
                 this.#activeSockets.push(socket.id);
+                /* self update of user-list */
                 socket.emit('update-user-list', {
                     users: this.#activeSockets.filter(
                         (currentSocket) => currentSocket !== socket.id
                     ),
                 });
+                /* global update of user-list */
                 socket.broadcast.emit('update-user-list', {
                     users: [socket.id],
                 });
@@ -71,6 +72,18 @@ class Server {
                 socket.to(to).emit('answer-made', {
                     socketId: socket.id,
                     answer,
+                });
+            });
+
+            socket.on('end-call', ({ to }) => {
+                socket.to(to).emit('close-connection', {
+                    socketId: socket.id,
+                });
+            });
+
+            socket.on('send-message', ({ to, message }) => {
+                socket.to(to).emit('recieve-message', {
+                    message,
                 });
             });
         });

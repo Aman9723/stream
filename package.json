@@ -1,11 +1,11 @@
 {
-    "name": "webrtc",
+    "name": "streamer",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
     "type": "commonjs",
     "scripts": {
-        "start": "nodemon ./src/index.js"
+        "start": "node ./src/index.js"
     },
     "keywords": [],
     "author": "aman9723",
