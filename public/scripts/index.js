@@ -47,7 +47,29 @@ navigator.mediaDevices
 
 let peerConnection;
 async function createPeerConnection() {
-    peerConnection = new RTCPeerConnection();
+    peerConnection = new RTCPeerConnection({
+        /* adding STUN and TURN servers to build connection even with NAT, firewall and connection problems */
+        iceServers: [
+            {
+                urls: 'stun:relay.metered.ca:80',
+            },
+            {
+                urls: 'turn:relay.metered.ca:80',
+                username: '148b198ca9db0c2508f4adf2',
+                credential: 'sZeaVB3sMK5gdAWe',
+            },
+            {
+                urls: 'turn:relay.metered.ca:443',
+                username: '148b198ca9db0c2508f4adf2',
+                credential: 'sZeaVB3sMK5gdAWe',
+            },
+            {
+                urls: 'turn:relay.metered.ca:443?transport=tcp',
+                username: '148b198ca9db0c2508f4adf2',
+                credential: 'sZeaVB3sMK5gdAWe',
+            },
+        ],
+    });
     peerConnection.ontrack = function ({ streams: [stream] }) {
         remoteVideo.srcObject = stream;
     };
